@@ -72,7 +72,8 @@ def process_dicom(file_path, output_folder, folder_structure):
         folder_structure (str): Custom folder structure using placeholders.
 
     Returns:
-        list: A list of metadata values for the CSV report, or None if the file could not be processed.
+        list: A list of metadata values for the CSV report, or None if the file could not be 
+        processed.
     """
     try:
         ds = pydicom.dcmread(file_path, stop_before_pixels=True)
@@ -143,7 +144,8 @@ def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
     dicom_data = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
         results = list(
-            tqdm(executor.map(lambda f: process_dicom(f, output_folder, folder_structure), dicom_files),
+            tqdm(executor.map(lambda f: process_dicom(f, output_folder, folder_structure),
+                              dicom_files),
                  total=len(dicom_files),
                  desc="Processing DICOMs"))
 
@@ -165,7 +167,9 @@ def main():
     """
     Entry point for the script. Parses command-line arguments and organizes DICOM files.
     """
-    parser = argparse.ArgumentParser(description="Organize DICOM files recursively and generate a CSV report.")
+    parser = argparse.ArgumentParser(
+        description="Organize DICOM files recursively and generate a CSV report."
+        )
     parser.add_argument("-i", "--input", required=True, help="Path to the root DICOM folder")
     parser.add_argument("-o", "--output", required=True, help="Path to the destination folder")
     parser.add_argument("-r", "--report", help="Path to save the CSV report (optional)")

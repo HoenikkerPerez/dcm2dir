@@ -83,12 +83,12 @@ class TestDCM2Dir(unittest.TestCase):
         into the correct folder structure and a CSV report is generated.
         """
         for i in range(3):
-            with open(os.path.join(self.temp_input_dir.name, f"test_{i}.dcm"), 
+            with open(os.path.join(self.temp_input_dir.name, f"test_{i}.dcm"),
                       "w", 
                       encoding="utf-8") as f:
                 f.write("Mock DICOM content")
 
-        with patch("dcm2dir.dcm2dir.process_dicom", 
+        with patch("dcm2dir.dcm2dir.process_dicom",
                    return_value=("ID", "Date", "ExamID", "SeriesID", "Description")):
             organize_dicoms(
                 self.temp_input_dir.name,
