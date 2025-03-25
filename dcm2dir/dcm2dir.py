@@ -1,27 +1,79 @@
+"""
+dcm2dir: A tool to organize DICOM files into a structured folder hierarchy.
+
+This script recursively scans a given root folder for DICOM files, extracts relevant metadata,
+and organizes the files into a structured output folder. The folder structure is customizable
+using placeholders for different DICOM tags. Additionally, a CSV report can be generated with
+details of all processed DICOM series.
+
+Features:
+- Recursively scans and organizes DICOM files.
+- Supports customizable folder structures using placeholders.
+- Utilizes multi-threading for faster processing.
+- Generates a CSV report listing all series metadata.
+- Handles missing DICOM tags gracefully.
+
+Usage:
+    python dcm2dir.py -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>]
+
+Arguments:
+    -i, --input (required): Path to the root folder containing DICOM files.
+    -o, --output (required): Path to the destination folder where organized files will be stored.
+    -r, --report (optional): Path to save the generated CSV report.
+    -f, --folder-structure (optional): Custom folder structure using placeholders.
+"""
+
 import os
 import shutil
-import pydicom
 import csv
 import re
 import argparse
 import concurrent.futures
+import pydicom
 from tqdm import tqdm
 
 
 def sanitize_name(name, placeholder="na"):
-    """Sanitize names by replacing non-alphanumeric characters with underscores."""
+    """
+    Sanitize names by replacing non-alphanumeric characters with underscores.
+
+    Args:
+        name (str): The name to sanitize.
+        placeholder (str): The default value to use if the name is None or empty.
+
+    Returns:
+        str: The sanitized name.
+    """
     if not name:
         return placeholder
     return re.sub(r'[^a-zA-Z0-9]', '_', name)
 
 
 def convert_folder_structure(string):
-    """Converts the placeholder syntax to Python's format string."""
+    """
+    Converts the placeholder syntax to Python's format string.
+
+    Args:
+        string (str): The folder structure string with placeholders (e.g., "%i/%x_%t/%s_%d").
+
+    Returns:
+        str: The folder structure string converted to Python's format string syntax.
+    """
     return re.sub(r"(%[a-zA-Z])", r"{\1}", string)
 
 
 def process_dicom(file_path, output_folder, folder_structure):
-    """Reads a DICOM file, extracts relevant metadata, and copies it to the structured output folder."""
+    """
+    Reads a DICOM file, extracts relevant metadata, and copies it to the structured output folder.
+
+    Args:
+        file_path (str): Path to the DICOM file.
+        output_folder (str): Path to the destination folder.
+        folder_structure (str): Custom folder structure using placeholders.
+
+    Returns:
+        list: A list of metadata values for the CSV report, or None if the file could not be processed.
+    """
     try:
         ds = pydicom.dcmread(file_path, stop_before_pixels=True)
 
@@ -66,15 +118,21 @@ def process_dicom(file_path, output_folder, folder_structure):
         shutil.copy2(file_path, dest_folder)
 
         return [metadata["%i"], metadata["%t"], metadata["%x"], metadata["%s"], metadata["%d"]]
-    except Exception as e:
+    except (pydicom.errors.InvalidDicomError, KeyError, OSError) as e:
         print(f"Skipping {file_path}: {e}")
         return None
 
 
 def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
-    """Recursively scans DICOM files, processes them in parallel, and generates a CSV report."""
-    
-    # Convert placeholder syntax to Python's format string
+    """
+    Recursively scans DICOM files, processes them in parallel, and generates a CSV report.
+
+    Args:
+        root_folder (str): Path to the root folder containing DICOM files.
+        output_folder (str): Path to the destination folder.
+        report_path (str): Path to save the CSV report (optional).
+        folder_structure (str): Custom folder structure using placeholders.
+    """
     folder_structure = convert_folder_structure(folder_structure)
 
     dicom_files = []
@@ -93,7 +151,7 @@ def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
 
     # Write CSV report if provided
     if report_path:
-        with open(report_path, 'w', newline='') as f:
+        with open(report_path, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(["SubjectID", "ExamDate", "ExamID", "SeriesID", "SeriesDescription"])
             for row in sorted(dicom_data, key=lambda x: (x[0], x[1])):
@@ -104,6 +162,9 @@ def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
 
 
 def main():
+    """
+    Entry point for the script. Parses command-line arguments and organizes DICOM files.
+    """
     parser = argparse.ArgumentParser(description="Organize DICOM files recursively and generate a CSV report.")
     parser.add_argument("-i", "--input", required=True, help="Path to the root DICOM folder")
     parser.add_argument("-o", "--output", required=True, help="Path to the destination folder")
