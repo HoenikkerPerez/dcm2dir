@@ -20,6 +20,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt pylint pytest
+        pip install -e .  # Install the current package in editable mode
 
     - name: Run pylint
       run: |
