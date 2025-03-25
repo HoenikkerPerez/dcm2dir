@@ -1,5 +1,7 @@
 # dcm2dir
-Dicom Organizer recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder.# DICOM Organizer
+Dicom Organizer recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder.
+
+# DICOM Organizer
 
 ## Description
 This Python script recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder. The folder structure is customizable using placeholders for different DICOM tags. Additionally, a CSV report is generated with details of all processed DICOM series.
@@ -12,17 +14,26 @@ This Python script recursively scans a given root folder for DICOM files, extrac
 - Handles missing DICOM tags gracefully.
 
 ## Installation
-Ensure you have Python installed, then install the required dependencies:
 
+### From PyPI
+Install the package directly from PyPI using `pip`:
 ```sh
-pip install pydicom tqdm
+pip install dcm2dir
+```
+
+### From Source Code
+Clone the repository and install the dependencies manually:
+```sh
+git clone https://github.com/HoenikkerPerez/dcm2dir.git
+cd dcm2dir
+pip install -e .
 ```
 
 ## Usage
 Run the script with the following command-line arguments:
 
 ```sh
-python dcm2dir.py -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>]
+dcm2dir -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>]
 ```
 
 ### Arguments:
@@ -33,7 +44,7 @@ python dcm2dir.py -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <fo
 
 ### Example Usage:
 ```sh
-python dcm2dir.py -i ./dicoms -o ./organized -r report.csv -f "%i/%x_%t/%s_%d"
+dcm2dir -i ./dicoms -o ./organized -r report.csv -f "%i/%x_%t/%s_%d"
 ```
 
 ### Folder Structure:
@@ -64,12 +75,20 @@ If `-f` is not provided, the default structure is used:
 ```
 "-f %i/%x_%t/%s_%d"
 ```
-which correspond to:
+which corresponds to:
 ```
-- <PatientID>
-    - <StudyID>_<ExamDate>
-        -<SeriesNumber>_<SeriesDescription>
+/path/to/output/
+├── PatientID1/
+│   ├── StudyID1_20250101/
+│   │   ├── SeriesNumber1_SeriesDescription/
+│   │   │   └── file1.dcm
+│   │   │   └── file2.dcm
+├── PatientID2/
+│   ├── StudyID2_20250102/
+│   │   ├── SeriesNumber2_SeriesDescription/
+│   │   │   └── file3.dcm
 ```
+
 ## Output
 
 The script organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
