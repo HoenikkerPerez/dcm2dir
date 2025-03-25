@@ -64,8 +64,14 @@ If `-f` is not provided, the default structure is used:
 ```
 "-f %i/%x_%t/%s_%d"
 ```
-
+which correspond to:
+```
+- <PatientID>
+    - <StudyID>_<ExamDate>
+        -<SeriesNumber>_<SeriesDescription>
+```
 ## Output
+
 The script organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
 - SubjectID
 - ExamDate
