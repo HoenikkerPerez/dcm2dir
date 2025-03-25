@@ -99,7 +99,7 @@ def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
         print("Processing completed. No CSV report generated.")
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Organize DICOM files recursively and generate a CSV report.")
     parser.add_argument("-i", "--input", required=True, help="Path to the root DICOM folder")
     parser.add_argument("-o", "--output", required=True, help="Path to the destination folder")
@@ -134,3 +134,6 @@ if __name__ == "__main__":
     args.folder_structure = convert_folder_structure(args.folder_structure)
     organize_dicoms(args.input, args.output, args.report, args.folder_structure)
 
+
+if __name__ == "__main__":
+    main()
