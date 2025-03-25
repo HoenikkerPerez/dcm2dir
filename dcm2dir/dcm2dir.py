@@ -73,6 +73,10 @@ def process_dicom(file_path, output_folder, folder_structure):
 
 def organize_dicoms(root_folder, output_folder, report_path, folder_structure):
     """Recursively scans DICOM files, processes them in parallel, and generates a CSV report."""
+    
+    # Convert placeholder syntax to Python's format string
+    folder_structure = convert_folder_structure(folder_structure)
+
     dicom_files = []
     for dirpath, _, filenames in os.walk(root_folder):
         for file in filenames:
@@ -130,8 +134,6 @@ def main():
                              "default '%%i/%%x_%%t/%%s_%%d'")
     args = parser.parse_args()
 
-    # Convert placeholder syntax to Python's format string
-    args.folder_structure = convert_folder_structure(args.folder_structure)
     organize_dicoms(args.input, args.output, args.report, args.folder_structure)
 
 
