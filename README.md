@@ -1,10 +1,8 @@
 # dcm2dir
-Dicom Organizer recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder.
-
-# DICOM Organizer
+dcm2dir recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder.
 
 ## Description
-This Python script recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder. The folder structure is customizable using placeholders for different DICOM tags. Additionally, a CSV report is generated with details of all processed DICOM series.
+dcm2dir tool recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder. The folder structure is customizable using placeholders for different DICOM tags. Additionally, a CSV report is generated with details of all processed DICOM series.
 
 ## Features
 - Recursively scans and organizes DICOM files.
@@ -30,7 +28,7 @@ pip install -e .
 ```
 
 ## Usage
-Run the script with the following command-line arguments:
+Run dcm2dir with the following command-line arguments:
 
 ```sh
 dcm2dir -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>]
@@ -91,7 +89,7 @@ which corresponds to:
 
 ## Output
 
-The script organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
+The tool organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
 - SubjectID
 - ExamDate
 - ExamID
@@ -101,7 +99,7 @@ The script organizes DICOM files into the specified output folder following the 
 ## Notes
 - Non-alphanumeric characters in metadata are replaced with underscores.
 - If a DICOM tag is missing, a default placeholder `na` is used.
-- The script uses multi-threading for better performance.
+- The tool uses multi-threading for better performance.
 
 ## License
 This project is open-source and available under the MIT License.
