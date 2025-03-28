@@ -5,6 +5,7 @@ Dcm2dir recursively scans a given root folder for DICOM files, extracts relevant
 ## Description
 This Python script recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder. The folder structure is customizable using placeholders for different DICOM tags. Additionally, a CSV report is generated with details of all processed DICOM series. The tool also supports anonymizing DICOM files with a default anonymization configuration and allows providing custom anonymization actions.
 
+
 ## Features
 - Recursively scans and organizes DICOM files.
 - Supports customizable folder structures.
@@ -30,7 +31,7 @@ pip install -e .
 ```
 
 ## Usage
-Run the script with the following command-line arguments:
+Run dcm2dir with the following command-line arguments:
 
 ```sh
 dcm2dir -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>] [-a]
@@ -138,7 +139,7 @@ This command will anonymize the DICOM files and organize them into the specified
 
 ## Output
 
-The script organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
+The tool organizes DICOM files into the specified output folder following the given structure. A CSV report is saved, containing the following columns:
 - SubjectID
 - ExamDate
 - ExamID
