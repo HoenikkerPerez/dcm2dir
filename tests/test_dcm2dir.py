@@ -89,7 +89,7 @@ class TestDCM2Dir(unittest.TestCase):
                 f.write("Mock DICOM content")
 
         with patch("dcm2dir.dcm2dir.process_dicom",
-                   return_value=("ID", "Date", "ExamID", "SeriesID", "Description")):
+                   return_value=("ID", "Date", "ExamID", "SeriesID", "DESCRIPTION")):
             organize_dicoms(
                 self.temp_input_dir.name,
                 self.temp_output_dir.name,
