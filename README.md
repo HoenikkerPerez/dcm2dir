@@ -450,3 +450,4 @@ The following table lists the anonymization actions for specific DICOM tags:
 - **X**: Remove the tag entirely.
 - **Z**: Replace the tag value with anonymized data.
 - **D**: Clean the tag value (e.g., remove sensitive information but keep the tag).
+- **C:VALUE**: Replace the tag value with a custom value.

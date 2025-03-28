@@ -7,6 +7,7 @@ This test suite verifies the functionality of the dcm2dir tool, including:
 - Organizing DICOM files into a structured output folder.
 - Generating a CSV report with metadata.
 - Converting folder structure placeholders to Python format strings.
+- Anonymizing DICOM files based on a configuration.
 
 The tests use temporary directories and files to ensure isolation and avoid
 modifying the actual file system. Mocking is used to simulate external dependencies
@@ -19,6 +20,7 @@ import tempfile
 from unittest.mock import patch, MagicMock
 from dcm2dir.dcm2dir import main, process_dicom, organize_dicoms
 from dcm2dir.dcm2dir import convert_folder_structure
+from dcm2dir.anonymize.default_anonymization_config import DEFAULT_ANONYMIZATION_CONFIG
 
 class TestDCM2Dir(unittest.TestCase):
     """
@@ -61,6 +63,7 @@ class TestDCM2Dir(unittest.TestCase):
                     self.temp_output_dir.name,
                     self.temp_report_file.name,
                     "%i/%x_%t/%s_%d",
+                    None
                 )
 
     def test_process_dicom(self):
@@ -89,12 +92,44 @@ class TestDCM2Dir(unittest.TestCase):
                 f.write("Mock DICOM content")
 
         with patch("dcm2dir.dcm2dir.process_dicom",
-                   return_value=("ID", "Date", "ExamID", "SeriesID", "DESCRIPTION")):
+                   return_value=("ID", "Date", "ExamID", "SeriesID", "Description")):
             organize_dicoms(
                 self.temp_input_dir.name,
                 self.temp_output_dir.name,
                 self.temp_report_file.name,
                 "%i/%x_%t/%s_%d",
+                None
+            )
+
+        self.assertTrue(os.path.exists(self.temp_report_file.name))
+        with open(self.temp_report_file.name, "r", encoding="utf-8") as f:
+            content = f.readlines()
+            self.assertGreater(len(content), 1)  # Ensure the CSV has data
+
+    def test_organize_dicoms_with_anonymization(self):
+        """
+        Test the organize_dicoms function with anonymization enabled.
+        Ensures that DICOM files are anonymized and organized correctly.
+        """
+        for i in range(3):
+            with open(os.path.join(self.temp_input_dir.name, f"test_{i}.dcm"),
+                      "w", 
+                      encoding="utf-8") as f:
+                f.write("Mock DICOM content")
+
+        mock_anonymization_config = {
+            "(0010,0010)": "C:ANON_SUBJECTNAME",
+            "(0010,0020)": "C:ANON_SUBJECTID"
+        }
+
+        with patch("dcm2dir.dcm2dir.process_dicom",
+                   return_value=("ID", "Date", "ExamID", "SeriesID", "Description")):
+            organize_dicoms(
+                self.temp_input_dir.name,
+                self.temp_output_dir.name,
+                self.temp_report_file.name,
+                "%i/%x_%t/%s_%d",
+                anonymize=mock_anonymization_config
             )
 
         self.assertTrue(os.path.exists(self.temp_report_file.name))
