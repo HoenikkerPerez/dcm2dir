@@ -20,7 +20,7 @@ import tempfile
 from unittest.mock import patch, MagicMock
 from dcm2dir.dcm2dir import main, process_dicom, organize_dicoms
 from dcm2dir.dcm2dir import convert_folder_structure
-from dcm2dir.anonymize.default_anonymization_config import DEFAULT_ANONYMIZATION_CONFIG
+from dcm2dir.anonymize import DEFAULT_ANONYMIZATION_CONFIG
 
 class TestDCM2Dir(unittest.TestCase):
     """
