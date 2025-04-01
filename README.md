@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![example workflow](https://github.com/HoenikkerPerez/dcm2dir/actions/workflows/pylint_pytest.yml/badge.svg)
+
 # dcm2dir
 Dcm2dir recursively scans a given root folder for DICOM files, extracts relevant metadata, and organizes the files into a structured output folder.
 
