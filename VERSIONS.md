@@ -1,6 +1,8 @@
 
+### Version v1.1.0.20250402 - 02-April-2025
+- Migrate packaging from setup.py/cfg to pyproject.toml  (Thanks to [jakob1379](https://github.com/jakob1379) in [PR #2](https://github.com/HoenikkerPerez/dcm2dir/pull/2))
 
-### Version v1.0.0.20250328 (Current) - 28-March-2025
+### Version v1.0.0.20250328 - 28-March-2025
 - Stable release of the `dcm2dir` tool.
 - Added anonymization feature with the `-a` or `--anonymize` flag.
 - Uses a default anonymization configuration to handle sensitive DICOM tags.

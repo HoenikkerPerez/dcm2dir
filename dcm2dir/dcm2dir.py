@@ -226,7 +226,7 @@ def main():
     """
     Entry point for the script. Parses command-line arguments and organizes DICOM files.
     """
-    print("Luca Peretti's dcm2dir version v1.0.0.20250328")
+    print("Luca Peretti's dcm2dir version v1.1.0.20250402")
 
     parser = argparse.ArgumentParser(
         description="Organize DICOM files recursively and generate a CSV report."

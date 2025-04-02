@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dcm2dir"
-version = "1.0.0.20250328"
+version = "1.1.0.20250402"
 description = "dcm2dir: Organize DICOM files into a structured output folder."
 readme = "README.md"
 license = "MIT"
