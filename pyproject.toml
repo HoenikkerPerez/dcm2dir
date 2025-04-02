@@ -1,3 +1,45 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dcm2dir"
+version = "1.0.0.20250328"
+description = "dcm2dir: Organize DICOM files into a structured output folder."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.6"
+authors = [
+    { name = "Luca Peretti", email = "luca_peretti@hotmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "pydicom",
+    "tqdm",
+]
+
+[project.scripts]
+dcm2dir = "dcm2dir.dcm2dir:main"
+
+[project.urls]
+Homepage = "https://github.com/HoenikkerPerez/dcm2dir"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/dcm2dir",
+]
+
+[dependency-groups]
+dev = [
+    "build>=0.9.0",
+]
+test = [
+    "pylint>=2.12.0",
+    "pytest>=7.0.1",
+]
+
