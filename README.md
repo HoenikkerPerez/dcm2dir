@@ -38,19 +38,26 @@ Run dcm2dir with the following command-line arguments:
 
 ```sh
 dcm2dir -i <input_folder> -o <output_folder> [-r <csv_report>] [-f <folder_structure>] [-a]
+dcm2dir -i <input_folder> --rename-folder [-o <output_folder>] [-f <folder_name_structure>]
 ```
 
 ### Arguments:
 - `-i, --input` (required): Path to the root folder containing DICOM files.
-- `-o, --output` (required): Path to the destination folder where organized files will be stored.
+- `-o, --output` (required unless `--rename-folder` is used): Path to the destination folder where organized files will be stored.
 - `-r, --report` (optional): Path to save the generated CSV report.
 - `-f, --folder-structure` (optional): Custom folder structure using placeholders. See "Folder Structure" section.
+- `--rename-folder` (optional): Validate each subfolder contains a single DICOM series (`SeriesInstanceUID`) and rename it. If `--output` is omitted, renaming happens in place.
 - `-a, --anonymize` (optional): Enable anonymization of DICOMs.
 - `-c, --custom_anon_config ` (optional): Path to the JSON file specifying anonymization rules.
 
 ### Example Usage:
 ```sh
 dcm2dir -i ./dicoms -o ./organized -r report.csv -f "%i/%x_%t/%s_%d"
+```
+
+### Example Usage (rename existing series folders in place):
+```sh
+dcm2dir -i ./dicoms --rename-folder -f "%s_%d"
 ```
 
 
